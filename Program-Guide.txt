@@ -5,7 +5,8 @@ Format Guide:
     - Fill in empty fields with "n/a".
     - Separate each field with a space and a line "|".
 
-#Format Example:
+
+Format Example:
 
 Website | Email | Username | Password
 --------------------------------------------------------
