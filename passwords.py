@@ -1,4 +1,4 @@
-use_hardcoded_filename = True
+use_hardcoded_filename = False
 
 def open_file ():
     '''repeatedly prompts for a file until one is successfully opened'''
@@ -40,6 +40,9 @@ def p_lookup (file):
 def add_entry (file):
     pass
 
+def edit_entry(file):
+    pass
+
 def main ():
     print("Hello. Welcome to the password manager. To get started, we need the name of the file that is holding your data.\n")
     file = open_file()
@@ -50,7 +53,7 @@ def main ():
         q1_repeat = True
         q2_repeat = True
         while q1_repeat == True:
-            print("What would you like to do today? \n1. View a complete list of websites, emails and passwords. \n2. View a list of just the websites. \n3. Look up login information for a specific website. \n4. Add and save a new entry to your data.")
+            print("What would you like to do today? \n1. View a complete list of websites, emails and passwords. \n2. View a list of just the websites. \n3. Look up login information for a specific website. \n4. Add and save a new entry to your data. \n5. Edit an already existing entry in the database.")
             answer = str(input())
             print()
             
@@ -74,6 +77,11 @@ def main ():
                 print("This function hasn't been defined yet.\n")
                 q1_repeat = False
             
+            elif answer.strip() == "5":
+                # edit_entry(file)
+                print("This function hasn't been defined yet.\n")
+                q1_repeat = False
+
             else:
                 print("I didn't understand that.\n")
 
