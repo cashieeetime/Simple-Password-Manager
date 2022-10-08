@@ -2,7 +2,7 @@ This is a simple program designed to read various login information and look up 
 
 Format Guide:
     - When writing the website label, use a label that has no spaces.
-    - Fill in empty fields with "n/a".
+    - Fill in empty fields with "n/a". This is important, please do NOT leave any fields blank.
     - Separate each field with a space and a line "|".
 
 
