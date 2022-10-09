@@ -4,6 +4,7 @@ def open_file ():
     '''repeatedly prompts for a file until one is successfully opened'''
     if use_hardcoded_filename:
         file = open("sample_passwords.txt")
+        #file = open("cashie_passwords.txt")
         return file
     
     else:
@@ -22,7 +23,7 @@ def build_dict (file):
     data_dict = {}
     for line in file:   
         line = line.strip().replace(" ", "")
-        line_list = line.split()
+        line_list = line.split("|")
         linelist = [line_list[1], line_list[2], line_list[3]]        
         site = line_list[0]
         data_dict[site] = linelist
@@ -86,9 +87,8 @@ def main ():
             else:
                 print("I didn't understand that.\n")
 
-
         while q2_repeat == True:
-            print("Would you like to start over? (yes/no)")
+            print("\nWould you like to start over? (yes/no)")
             answer = str(input())
 
             if answer.lower() == "no":
