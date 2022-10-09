@@ -1,4 +1,4 @@
-use_hardcoded_filename = False
+use_hardcoded_filename = True 
 
 def open_file ():
     '''repeatedly prompts for a file until one is successfully opened'''
@@ -21,20 +21,21 @@ def build_dict (file):
     ''' Reads the file and separates lines, then calls a function to form the dictionary'''
     data_dict = {}
     for line in file:   
-        #line = line.strip().replace(" ", "")
+        line = line.strip().replace(" ", "")
         line_list = line.split()
         linelist = [line_list[1], line_list[2], line_list[3]]        
         site = line_list[0]
         data_dict[site] = linelist
     return data_dict
 
-def print_all (file):
+def print_all (data_dict):
     pass
 
-def print_sites (file):
-    pass
+def print_sites (data_dict):
+    for key in data_dict:
+        print(key)
 
-def p_lookup (file):
+def p_lookup (data_dict):
     pass
 
 def add_entry (file):
@@ -46,7 +47,7 @@ def edit_entry(file):
 def main ():
     print("Hello. Welcome to the password manager. To get started, we need the name of the file that is holding your data.\n")
     file = open_file()
-    build_dict(file)
+    data_dict = build_dict(file)
     cont = True
 
     while cont == True:
@@ -58,17 +59,17 @@ def main ():
             print()
             
             if answer.strip() == "1":
-                # print_all(file)
+                # print_all(data_dict)
                 print("This function hasn't been defined yet.\n")
                 q1_repeat = False
 
             elif answer.strip() == "2":
-                # print_sites(file)
-                print("This function hasn't been defined yet.\n")
+                print_sites(data_dict)
+                #print("This function hasn't been defined yet.\n")
                 q1_repeat = False
             
             elif answer.strip() == "3":
-                # p_lookup(file)
+                # p_lookup(data_dict)
                 print("This function hasn't been defined yet.\n")
                 q1_repeat = False
 
