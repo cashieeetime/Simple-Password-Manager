@@ -3,17 +3,17 @@ use_hardcoded_filename = True
 def open_file ():
     '''repeatedly prompts for a file until one is successfully opened'''
     if use_hardcoded_filename:
-        file = open("sample_passwords.txt")
+        file = open("example_password_format.txt")
         #file = open("cashie_passwords.txt")
         return file
-    
+
     else:
         while True:
             fp = input("Enter a file name: ")
             try:
                 file = open(fp, "r")
                 return file
-
+        
             except FileNotFoundError:
                 print("Error: File not found.")
                 continue 
@@ -30,30 +30,39 @@ def build_dict (file):
     return data_dict
 
 def count_char (data_dict):
-    '''loops through the whole file to find the item with the largest number of characters, then stores and returns that number'''
-    char_count = 0
+    '''loops through the whole file to find the items with the largest number of characters in each category, then stores and returns that number'''
+    w = 0     #len for websites
+    e = 0     #len for emails
+    u = 0     #len for usernames
+    p = 0     #len for passwords
 
     for key in data_dict:
-        key_char = len(key)
-        if key_char > char_count:
-            char_count = key_char
-        for item in key:
-            item_char = len(item)
-            if item_char > char_count:
-                char_count = item_char
+        w_len = len(key)
+        e_len = len(data_dict[key][0])
+        u_len = len(data_dict[key][1])
+        p_len = len(data_dict[key][2])
 
-    return char_count
+        if w_len > w:
+            w = w_len
+        if e_len > e:
+            e = e_len
+        if u_len > u:
+            u = u_len
+        if p_len > p:
+            p = p_len 
 
-def print_all (data_dict):
+    return w, e, u, p
+
+def print_all (data_dict, w, e, u, p):
     '''prints out an alphabetical list of the dictionary's keys and it's corresponding values'''
-    print("{:20s} {:1s} {:20s} {:1s} {:20s} {:1s} {:20s}".format("Website", "|", "Email", "|", "Username", "|", "Password"))
-
+    print("{:{web}s} | {:{em}s} | {:{use}s} | {:{pas}s}".format("Website", "Email", "Username", "Password", web = w, em = e, use = u, pas = p))
+    print("{:{web}s}   {:{em}s}   {:{use}s}   {:{pas}s}".format("-------", "-----", "--------", "--------", web = w, em = e, use = u, pas = p))
     for key in sorted(data_dict):
-        print("{:20s} {:1s} {:20s} {:1s} {:20s} {:1s} {:20s}".format(key, "|", data_dict[key][0], "|", data_dict[key][1], "|", data_dict[key][2]))
+        print("{:{web}s} | {:{em}s} | {:{use}s} | {:{pas}s}".format(key, data_dict[key][0], data_dict[key][1], data_dict[key][2], web = w, em = e, use = u, pas = p))
 
 def print_sites (data_dict):
     '''prints out the dictionary keys in alphabetical order'''
-    print("Website \n--------")
+    print("Website \n-------")
     for key in sorted(data_dict):
         print(key)
 
@@ -73,7 +82,7 @@ def main ():
     print("\nHello. Welcome to the password manager. To get started, we need the name of the file that is holding your data.\n")
     file = open_file()
     data_dict = build_dict(file)
-    char_count = count_char(data_dict)
+    w, e, u, p = count_char(data_dict)
     cont = True
 
     while cont == True:
@@ -85,7 +94,7 @@ def main ():
             print()
             
             if answer.strip() == "1":
-                print_all(data_dict)
+                print_all(data_dict, w, e, u, p)
                 #print("This function hasn't been defined yet.\n")
                 q1_repeat = False
 
