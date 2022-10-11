@@ -6,14 +6,12 @@ def open_file ():
         #file = open("example_password_format.txt")
         file = open("cashie_passwords.txt")
         return file
-
     else:
         while True:
             fp = input("Enter a file name: ")
             try:
                 file = open(fp, "r")
                 return file
-        
             except FileNotFoundError:
                 print("Error: File not found.")
                 continue 
@@ -35,13 +33,11 @@ def count_char (data_dict):
     e = 0     #len for emails
     u = 0     #len for usernames
     p = 0     #len for passwords
-
     for key in data_dict:
         w_len = len(key)
         e_len = len(data_dict[key][0])
         u_len = len(data_dict[key][1])
         p_len = len(data_dict[key][2])
-
         if w_len > w:
             w = w_len
         if e_len > e:
@@ -50,15 +46,18 @@ def count_char (data_dict):
             u = u_len
         if p_len > p:
             p = p_len 
-
     return w, e, u, p
 
-def print_all (data_dict, w, e, u, p):
-    '''prints out an alphabetical list of the dictionary's keys and it's corresponding values'''
+def pretty_print (output, w, e, u, p):
     print("{:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format("Website", "Email", "Username", "Password", w = w, e = e, u = u, p = p))
     print("{:{w}s}   {:{e}s}   {:{u}s}   {:{p}s}".format("-------", "-----", "--------", "--------", w = w, e = e, u = u, p = p))
-    for key in sorted(data_dict):
-        print("{:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format(key, data_dict[key][0], data_dict[key][1], data_dict[key][2], w = w, e = e, u = u, p = p))
+    for key in output:
+        print("{:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format(key, output[key][0], output[key][1], output[key][2], w = w, e = e, u = u, p = p))
+
+def print_all (data_dict):
+    '''prints out an alphabetical list of the dictionary's keys and it's corresponding values'''
+    output = sorted(data_dict)
+    return output
 
 def print_sites (data_dict):
     '''prints out the dictionary keys in alphabetical order'''
@@ -68,12 +67,21 @@ def print_sites (data_dict):
 
 def p_lookup (data_dict, choice, w, e, u, p):
     '''takes a website name as an argument, and searches the dictionary for that key'''
-    print("\nHere is a list of websites that might match what you are looking for.\n")
-    print("{:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format("Website", "Email", "Username", "Password", w = w, e = e, u = u, p = p))
-    print("{:{w}s}   {:{e}s}   {:{u}s}   {:{p}s}".format("-------", "-----", "--------", "--------", w = w, e = e, u = u, p = p))
-    for key in data_dict:
+    count = 0
+    for key in sorted(data_dict):
+        if choice.lower() == key.lower():
+            print("\nHere is a list of websites that might match what you are looking for.\n")
+            print("{:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format("Website", "Email", "Username", "Password", w = w, e = e, u = u, p = p))
+            print("{:{w}s}   {:{e}s}   {:{u}s}   {:{p}s}".format("-------", "-----", "--------", "--------", w = w, e = e, u = u, p = p))
+
         if choice.lower() in key.lower():
+            if count == 1:
+                print("\nHere is a list of websites that might match what you are looking for.\n")
+                print("{:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format("Website", "Email", "Username", "Password", w = w, e = e, u = u, p = p))
+                print("{:{w}s}   {:{e}s}   {:{u}s}   {:{p}s}".format("-------", "-----", "--------", "--------", w = w, e = e, u = u, p = p))
             print("{:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format(key, data_dict[key][0], data_dict[key][1], data_dict[key][2], w = w, e = e, u = u, p = p))
+    if count == 0:
+        print("We couldn't find any websites with that name.")
 
 def add_entry (file):
     '''add an entry to the original file'''
@@ -97,52 +105,42 @@ def main ():
             print("What would you like to do today? \n1. View a complete, alphabetized list of websites, emails and passwords. \n2. View an alphabetized list of just the websites. \n3. Look up login information for a specific website. \n4. Add and save a new entry to your data. \n5. Edit an already existing entry in the database.")
             answer = str(input())
             print()
-            
             if answer.strip() == "1":
-                print_all(data_dict, w, e, u, p)
+                output = print_all(data_dict)
+                pretty_print(output, w, e, u, p)
                 q1_repeat = False
-
             elif answer.strip() == "2":
                 print_sites(data_dict)
                 q1_repeat = False
-            
             elif answer.strip() == "3":
                 print("What website would you like to search for?")
                 choice = input()
                 p_lookup(data_dict, choice, w, e, u, p)
-                #print("This function hasn't been defined yet.\n")
                 q1_repeat = False
-
             elif answer.strip() == "4":
                 # add_entry(file)
                 print("This function hasn't been defined yet.\n")
                 q1_repeat = False
-            
             elif answer.strip() == "5":
                 # edit_entry(file)
                 print("This function hasn't been defined yet.\n")
                 q1_repeat = False
-
             else:
                 print("I didn't understand that.\n")
 
         while q2_repeat == True:
             print("\nWould you like to start over? (yes/no)")
             answer = str(input())
-
             if answer.lower() == "no":
                 cont = False
                 print("\nThank you for using the password manager. We will now close the program.\n")
                 file.close()
                 q2_repeat = False
-
             elif answer.lower() == "yes":
                 print()
                 q1_repeat = True
                 q2_repeat = False
-
             else:
                 print("\nI didn't understand that.")
                 q2_repeat = True
-
 main()
