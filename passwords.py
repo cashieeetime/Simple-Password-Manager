@@ -3,8 +3,8 @@ use_hardcoded_filename = True
 def open_file ():
     '''repeatedly prompts for a file until one is successfully opened'''
     if use_hardcoded_filename:
-        #file = open("example_password_format.txt")
-        file = open("cashie_passwords.txt")
+        file = open("example_password_format.txt")
+        #file = open("cashie_passwords.txt")
         return file
     else:
         while True:
@@ -50,13 +50,16 @@ def count_char (data_dict):
 
 def pretty_print (output, w, e, u, p):
     print("{:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format("Website", "Email", "Username", "Password", w = w, e = e, u = u, p = p))
-    print("{:{w}s}   {:{e}s}   {:{u}s}   {:{p}s}".format("-------", "-----", "--------", "--------", w = w, e = e, u = u, p = p))
+    print("{:{w}s}   {:{e}s}   {:{u}s}   {:{p}s}".format("-------", "-----", "--------", "--------", w = w, e = e, u = u, p = p))   
     for key in output:
         print("{:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format(key, output[key][0], output[key][1], output[key][2], w = w, e = e, u = u, p = p))
 
 def print_all (data_dict):
     '''prints out an alphabetical list of the dictionary's keys and it's corresponding values'''
-    output = sorted(data_dict)
+    output = {}
+    for key in sorted((data_dict)):
+        keylist = [data_dict[key][0], data_dict[key][1], data_dict[key][2]]
+        output[key] = keylist
     return output
 
 def print_sites (data_dict):
