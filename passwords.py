@@ -76,18 +76,21 @@ def print_sites (data_dict):
 def p_lookup (data_dict, choice):
     '''takes a website name as an argument, and searches the dictionary for that key'''
     output = {}
+    alt_output = {}
     for key in sorted(data_dict):
         if choice.lower() == key.lower():
             linelist = [data_dict[key][0], data_dict[key][1], data_dict[key][2]]
             output[key] = linelist
 
-        
-    if choice.lower() in key.lower():
-        
-        pass
-    
-    #print("We couldn't find any websites with that name.")
-    return output
+        if key.lower().startswith(choice.lower()):
+            linelist = [data_dict[key][0], data_dict[key][1], data_dict[key][2]]
+            alt_output[key] = linelist
+
+    if output != {}:
+        return output
+    else:
+        print("We couldn't find any websites with that name. Do any of these similar websties match what you are looking for?\n")
+        return alt_output
 
 def add_entry (file):
     '''add an entry to the original file'''
