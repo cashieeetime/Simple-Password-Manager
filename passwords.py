@@ -1,4 +1,4 @@
-use_hardcoded_filename = True 
+use_hardcoded_filename = True
 
 def open_file ():
     '''repeatedly prompts for a file until one is successfully opened'''
@@ -8,12 +8,12 @@ def open_file ():
         return file
     else:
         while True:
-            fp = input("Enter a file name: ")
+            fp = input("\nEnter a file name: ")
             try:
                 file = open(fp, "r")
                 return file
             except FileNotFoundError:
-                print("Error: File not found.")
+                print("\n    Error: File not found.")
                 continue 
 
 def build_dict (file):
@@ -53,11 +53,11 @@ def count_char (data_dict):
 
 def pretty_print (output, w, e, u, p):
     '''takes output from a function and formats the result'''
-    print("{:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format("Website", "Email", "Username", "Password", w = w, e = e, u = u, p = p))
-    print("{:{w}s}   {:{e}s}   {:{u}s}   {:{p}s}".format("-------", "-----", "--------", "--------", w = w, e = e, u = u, p = p))
+    print("    {:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format("Website", "Email", "Username", "Password", w = w, e = e, u = u, p = p))
+    print("    {:{w}s}   {:{e}s}   {:{u}s}   {:{p}s}".format("-------", "-----", "--------", "--------", w = w, e = e, u = u, p = p))
 
     for key in output:
-        print("{:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format(key, output[key][0], output[key][1], output[key][2], w = w, e = e, u = u, p = p))
+        print("    {:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format(key, output[key][0], output[key][1], output[key][2], w = w, e = e, u = u, p = p))
 
 def print_all (data_dict):
     '''prints out an alphabetical list of the dictionary's keys and it's corresponding values'''
@@ -69,9 +69,9 @@ def print_all (data_dict):
 
 def print_sites (data_dict):
     '''prints out the dictionary keys in alphabetical order'''
-    print("Website \n-------")
+    print("    Website\n    -------")
     for key in sorted(data_dict):
-        print(key)
+        print("   ", key)
 
 def p_lookup (data_dict, choice):
     '''takes a website name as an argument, and searches the dictionary for that key'''
@@ -111,8 +111,8 @@ def main ():
         q1_repeat = True
         q2_repeat = True
         while q1_repeat == True:
-            print("What would you like to do today? \n1. View a complete, alphabetized list of websites, emails and passwords. \n2. View an alphabetized list of just the websites. \n3. Look up login information for a specific website. \n4. Add and save a new entry to your data. \n5. Edit an already existing entry in the database.")
-            answer = str(input())
+            print("What would you like to do today?\n    1. View a complete, alphabetized list of websites, emails and passwords.\n    2. View an alphabetized list of just the websites.\n    3. Look up login information for a specific website.\n    4. Add and save a new entry to your data.\n    5. Edit an already existing entry in the database.")
+            answer = str(input("-> "))
             print()
 
             if answer.strip() == "1":
@@ -126,7 +126,7 @@ def main ():
             
             elif answer.strip() == "3":
                 print("What website would you like to search for?")
-                choice = input()
+                choice = input("-> ")
                 print()
                 output = p_lookup(data_dict, choice)
                 pretty_print(output, w, e, u, p)
@@ -134,12 +134,12 @@ def main ():
             
             elif answer.strip() == "4":
                 # add_entry(file)
-                print("This function hasn't been defined yet.\n")
+                print("This function hasn't been defined yet.")
                 q1_repeat = False
             
             elif answer.strip() == "5":
                 # edit_entry(file)
-                print("This function hasn't been defined yet.\n")
+                print("This function hasn't been defined yet.")
                 q1_repeat = False
             
             else:
@@ -147,7 +147,7 @@ def main ():
 
         while q2_repeat:
             print("\nWould you like to start over? (yes/no)")
-            answer = str(input())
+            answer = str(input("-> "))
         
             if answer.lower() == "no":
                 cont = False
