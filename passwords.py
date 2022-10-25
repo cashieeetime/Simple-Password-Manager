@@ -107,7 +107,6 @@ def add_entry (file, website, email, username, password):
     string = website + spacer + email + spacer + username + spacer + password
     file.write(string) 
 
-
     '''append newline of data to dictionary then overwrite whole file?'''
 
 def edit_entry(file):
