@@ -1,23 +1,32 @@
+from asyncore import read
 use_hardcoded_filename = True
 
-def open_file ():
+def initialize_file ():
     '''repeatedly prompts for a file until one is successfully opened'''
     if use_hardcoded_filename:
         file = open("example_password_format.txt")
-        #file = open("cashie_passwords.txt")
-        return file
+        fp = "example_password_format.txt"
+        return file, fp
     else:
         while True:
             fp = input("\nEnter a file name: ")
             try:
                 file = open(fp, "r")
-                return file
+                return file, fp
             except FileNotFoundError:
                 print("\n    Error: File not found.")
                 continue 
 
+def read_file (fp):
+    file = open(fp, "r")
+    return file
+
+def append_file (fp):
+    file = open(fp, "a")
+    file.close()
+
 def build_dict (file):
-    ''' Reads the file and separates lines, then calls a function to form the dictionary'''
+    '''Reads the file and splits lines, then calls a function to form the dictionary'''
     data_dict = {}
     for line in file:   
         line = line.strip().replace(" ", "")
@@ -28,7 +37,7 @@ def build_dict (file):
     return data_dict
 
 def count_char (data_dict):
-    '''loops through the whole file to find the items with the largest number of characters in each category, then stores and returns that number'''
+    '''loops through the file to find the keyword with the largest number of characters per  category, then returns those number'''
     w = 0     #len for websites
     e = 0     #len for emails
     u = 0     #len for usernames
@@ -52,7 +61,7 @@ def count_char (data_dict):
     return w, e, u, p
 
 def pretty_print (output, w, e, u, p):
-    '''takes output from a function and formats the result'''
+    '''takes output from a function and formats the result for printing'''
     print("    {:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format("Website", "Email", "Username", "Password", w = w, e = e, u = u, p = p))
     print("    {:{w}s}   {:{e}s}   {:{u}s}   {:{p}s}".format("-------", "-----", "--------", "--------", w = w, e = e, u = u, p = p))
 
@@ -92,9 +101,14 @@ def p_lookup (data_dict, choice):
         print("We couldn't find any websites with that name. Do any of these similar websties match what you are looking for?\n")
         return alt_output
 
-def add_entry (file):
+def add_entry (file, website, email, username, password):
     '''add an entry to the original file'''
-    pass
+    spacer = " | "
+    string = website + spacer + email + spacer + username + spacer + password
+    file.write(string) 
+
+
+    '''append newline of data to dictionary then overwrite whole file?'''
 
 def edit_entry(file):
     '''edit an already existing entry in the file'''
@@ -102,7 +116,7 @@ def edit_entry(file):
 
 def main ():
     print("\nHello. Welcome to the password manager. To get started, we need the name of the file that is holding your data.\n")
-    file = open_file()
+    file, fp = initialize_file()
     data_dict = build_dict(file)
     w, e, u, p = count_char(data_dict)
     cont = True
@@ -133,8 +147,14 @@ def main ():
                 q1_repeat = False
             
             elif answer.strip() == "4":
-                # add_entry(file)
-                print("This function hasn't been defined yet.")
+                print("We will now ask you to input the necessary login information. Type \"n/a\" for any fields you'd like to leave blank.")
+                website = input("What is the name of the website? \n-> ")
+                email = input("What is the email address? \n-> ")
+                username = input("What is the username? \n-> ")
+                password = input("What is the password? \n-> ")
+                append_file(fp)
+                add_entry(file, website, email, username, password)
+                #print("\nYour data has been sucessfully saved to your file.")
                 q1_repeat = False
             
             elif answer.strip() == "5":
@@ -156,6 +176,7 @@ def main ():
                 q2_repeat = False
         
             elif answer.lower() == "yes":
+                read_file(fp)
                 print()
                 q1_repeat = True
                 q2_repeat = False
@@ -163,4 +184,5 @@ def main ():
             else:
                 print("\nI didn't understand that.")
                 q2_repeat = True
+
 main()
