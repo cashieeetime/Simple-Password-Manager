@@ -17,11 +17,13 @@ def initialize_file ():
                 continue 
 
 def read_file (fp):
+    '''opens file for reading'''
     file = open(fp, "r")
     return file
 
 def write_file (fp):
-    file = open(fp, "w")
+    '''opens file for writing'''
+    file = open(fp, "a")
     return file
 
 def build_dict (file):
@@ -68,7 +70,7 @@ def pretty_print (output, w, e, u, p):
         print("    {:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format(key, output[key][0], output[key][1], output[key][2], w = w, e = e, u = u, p = p))
 
 def print_all (data_dict):
-    '''prints out an alphabetical list of the dictionary's keys and it's corresponding values'''
+    '''sorts dictionary keys and stores it oin a new variable to return'''
     output = {}
     for key in sorted((data_dict)):
         keylist = [data_dict[key][0], data_dict[key][1], data_dict[key][2]]
@@ -82,7 +84,7 @@ def print_sites (data_dict):
         print("   ", key)
 
 def p_lookup (data_dict, choice):
-    '''takes a website name as an argument, and searches the dictionary for that key'''
+    '''takes a website name as an argument, and searches the dictionary for that key; if unable to find key, function suggests related websites'''
     output = {}
     alt_output = {}
     for key in sorted(data_dict):
@@ -105,8 +107,7 @@ def add_entry (file, data_dict, website, email, username, password):
     linelist = [email, username, password]
     data_dict[website] = linelist
     spacer = " | "
-    for key in  data_dict:
-        file.write(key + spacer + data_dict[key][0] + spacer + data_dict[key][1] + spacer + data_dict[key][2] + "\n")
+    file.write("\n" + website + spacer + email + spacer + username + spacer + password)
     file.close()
 
 def edit_entry(file):
@@ -115,78 +116,87 @@ def edit_entry(file):
 
 
 
+print("\nHello. Welcome to the password manager.\n")
+while True:
+    
+    answer = input("To get started, we need the name of the file that is holding your data. Would you like to:\n    1. Provide the name of an already exisiting text file with your data\n    2. Create a new text file to store your data\n-> ")
+    print()
 
-
-print("\nHello. Welcome to the password manager. To get started, we need the name of the file that is holding your data.\n")
+    if answer.strip() == "1":
+        fp = initialize_file()
+        break
+    
+    elif answer.strip() == "2":
+        print("tbd\n")
+        break
+    
+    else:
+        print("I didn't understand that.\n")
+        continue
 
 cont = True
-while cont:
-    q1_repeat = True
-    q2_repeat = True
-    while q1_repeat == True:
-        fp = initialize_file()
+while cont == True:
+
+    while True:
+    
         file = read_file(fp)
         data_dict = build_dict(file)
         w, e, u, p = count_char(data_dict)
-        print("What would you like to do today?\n    1. View a complete, alphabetized list of websites, emails and passwords.\n    2. View an alphabetized list of just the websites.\n    3. Look up login information for a specific website.\n    4. Add and save a new entry to your data.\n    5. Edit an already existing entry in the database.")
-        answer = str(input("-> "))
+        answer = input("What would you like to do today?\n    1. View a complete, alphabetized list of websites, emails and passwords.\n    2. View an alphabetized list of just the websites.\n    3. Look up login information for a specific website.\n    4. Add and save a new entry to your data.\n    5. Edit an already existing entry in the database.\n-> ")
         print()
 
         if answer.strip() == "1":
             output = print_all(data_dict)
             pretty_print(output, w, e, u, p)
-            q1_repeat = False
+            break
             
         elif answer.strip() == "2":
             print_sites(data_dict)
             print()
-            q1_repeat = False
+            break
             
         elif answer.strip() == "3":
-            print("What website would you like to search for?")
-            choice = input("-> ")
+            choice = input("What website would you like to search for?\n-> ")
             print()
             output = p_lookup(data_dict, choice)
             pretty_print(output, w, e, u, p)
-            q1_repeat = False
+            break
             
         elif answer.strip() == "4":
             print("We will now ask you to input the necessary login information. Type \"n/a\" for any fields you'd like to leave blank.\n")
-            website = input("What is the name of the website? \n    -> ")
-            email = input("What is the email address? \n    -> ")
-            username = input("What is the username? \n    -> ")
-            password = input("What is the password? \n    -> ")
-            file.close()
+            website = input("What is the name of the website? \n-> ")
+            email = input("What is the email address? \n-> ")
+            username = input("What is the username? \n-> ")
+            password = input("What is the password? \n-> ")
             file = write_file(fp)
             add_entry(file, data_dict, website, email, username, password)
             print("\nYour data has been sucessfully saved to your file.")
-            q1_repeat = False
-            
+            break
+
         elif answer.strip() == "5":
             edit_entry(file)
             print("This function hasn't been defined yet.")
-            q1_repeat = False
+            break
             
         else:
             print("I didn't understand that.\n")
-            q1_repeat = True
-
+            continue
         
-    while q2_repeat:
-        print("\nWould you like to start over? (yes/no)")
-        answer = str(input("-> "))
+    while True:
+
+        answer = input("\nWould you like to start over? (yes/no)\n-> ")
         
         if answer.lower() == "no":
-            cont = False
             print("\nThank you for using the password manager. We will now close the program.\n")
-            q2_repeat = False
+            cont = False
+            break
         
         elif answer.lower() == "yes":
-            read_file(fp)
             print()
-            q1_repeat = True
-            q2_repeat = False
+            break
         
         else:
             print("\nI didn't understand that.")
-            q2_repeat = True
+            continue
+
+    continue
