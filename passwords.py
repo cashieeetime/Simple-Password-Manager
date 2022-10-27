@@ -1,20 +1,22 @@
 from asyncore import read
-use_hardcoded_filename = True
 
+# debugging functions
+def default_fp ():
+    '''default file for debugging purposes; can also be used by the user for their own file'''
+    fp = "example_password_format.txt"
+    return fp
+
+# file functions
 def initialize_file ():
     '''repeatedly prompts for a file until one is successfully opened'''
-    if use_hardcoded_filename:
-        fp = "example_password_format.txt"
-        return fp
-    else:
-        while True:
-            fp = input("\nEnter a file name: ")
-            try:
-                file = open(fp, "r")
-                return fp
-            except FileNotFoundError:
-                print("\n    Error: File not found.")
-                continue 
+    while True:
+        fp = input("\nEnter a file name: ")
+        try:
+            file = open(fp, "r")
+            return file
+        except FileNotFoundError:
+            print("\n    Error: File not found.")
+            continue 
 
 def read_file (fp):
     '''opens file for reading'''
@@ -26,6 +28,7 @@ def write_file (fp):
     file = open(fp, "a")
     return file
 
+# basic dictionary and text format functions
 def build_dict (file):
     '''Reads the file and splits lines, then calls a function to form the dictionary'''
     data_dict = {}
@@ -69,6 +72,8 @@ def pretty_print (output, w, e, u, p):
     for key in output:
         print("    {:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format(key, output[key][0], output[key][1], output[key][2], w = w, e = e, u = u, p = p))
 
+
+# program action functions
 def print_all (data_dict):
     '''sorts dictionary keys and stores it oin a new variable to return'''
     output = {}
@@ -108,18 +113,18 @@ def add_entry (file, data_dict, website, email, username, password):
     data_dict[website] = linelist
     spacer = " | "
     file.write("\n" + website + spacer + email + spacer + username + spacer + password)
-    file.close()
 
 def edit_entry(file):
     '''edit an already existing entry in the file'''
     pass
 
 
-
+# program code begins here
 print("\nHello. Welcome to the password manager.\n")
+
 while True:
     
-    answer = input("To get started, we need the name of the file that is holding your data. Would you like to:\n    1. Provide the name of an already exisiting text file with your data\n    2. Create a new text file to store your data\n-> ")
+    answer = input("To get started, we need the name of the file that is holding your data. Would you like to:\n    1. Provide the name of an already exisiting text file with your data\n    2. Create a new text file to store your data\n    3. Use the default file name stored in the program\n-> ")
     print()
 
     if answer.strip() == "1":
@@ -127,15 +132,20 @@ while True:
         break
     
     elif answer.strip() == "2":
-        print("tbd\n")
+        fp = str(input("What would you like your file to be called? Please include the \".txt\" in your file name.\n-> "))
+        file = open(fp, "r")
         break
     
+    elif answer.lower() == "3":
+        fp = default_fp()
+        break
+
     else:
         print("I didn't understand that.\n")
         continue
 
-cont = True
-while cont == True:
+program_loop = True
+while program_loop == True:
 
     while True:
     
@@ -170,6 +180,7 @@ while cont == True:
             password = input("What is the password? \n-> ")
             file = write_file(fp)
             add_entry(file, data_dict, website, email, username, password)
+            file.close()
             print("\nYour data has been sucessfully saved to your file.")
             break
 
@@ -177,7 +188,7 @@ while cont == True:
             edit_entry(file)
             print("This function hasn't been defined yet.")
             break
-            
+              
         else:
             print("I didn't understand that.\n")
             continue
@@ -188,7 +199,7 @@ while cont == True:
         
         if answer.lower() == "no":
             print("\nThank you for using the password manager. We will now close the program.\n")
-            cont = False
+            program_loop = False
             break
         
         elif answer.lower() == "yes":
