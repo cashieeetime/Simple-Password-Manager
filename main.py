@@ -32,6 +32,9 @@ def write_file (fp):
     file = open(fp, "a")
     return file
 
+def unknown_input():
+    print("I didn't understand that.\n")
+
 #
 # basic dictionary and text format functions
 #
@@ -100,6 +103,7 @@ def print_sites (data_dict):
     print("    Website\n    -------")
     for key in sorted(data_dict):
         print("   ", key)
+    print()
 
 def p_lookup (data_dict, choice):
     '''takes a website name as an argument, and searches the dictionary for that key; if unable to find key, function suggests related websites'''
@@ -167,7 +171,7 @@ def program_intro():
             return fp
 
         else:
-            print("I didn't understand that.\n")
+            unknown_input()
             continue
 
 def question_one(fp):
@@ -183,7 +187,6 @@ def question_one(fp):
             
         elif answer.strip() == "2":
             print_sites(data_dict)
-            print()
             break
             
         elif answer.strip() == "3":
@@ -200,7 +203,7 @@ def question_one(fp):
             break
               
         else:
-            print("I didn't understand that.\n")
+            unknown_input()
             continue
 
 
@@ -218,7 +221,7 @@ def cont_question():
             return True
         
         else:
-            print("\nI didn't understand that.")
+            unknown_input()
             continue
 
 #
