@@ -1,15 +1,18 @@
 from asyncore import read
-#
+
+##############################################
 # DEBUGGING FUNCTIONS
-#
+##############################################
+
 def default_fp ():
     '''default file for debugging purposes; can also be used by the user for their own file'''
     fp = "example_password_format.txt"
     return fp
 
-#
+##############################################
 # FILE FUNCTIONS
-#
+##############################################
+
 def initialize_file ():
     '''repeatedly prompts for a file until one is successfully opened'''
     while True:
@@ -49,9 +52,10 @@ def create_file():
 def unknown_input():
     print("I didn't understand that.\n")
 
-#
+##############################################
 # INITIALIZE DICTIONARY
-#
+##############################################
+
 def build_dict (fp):
     '''Reads the file and splits lines, then calls a function to form the dictionary'''
     file = read_file(fp)
@@ -64,9 +68,10 @@ def build_dict (fp):
     file.close()
     return data_dict
 
-#
+##############################################
 # TEXT FORMAT FUNCTIONS
-#
+##############################################
+
 def character_count (data_dict):
     '''loops through the file to find the keyword with the largest number of characters per  category, then returns those number'''
     w = 0     #len for websites
@@ -101,9 +106,10 @@ def pretty_print (output, data_dict):
     for key in output:
         print("    {:{w}s} | {:{e}s} | {:{u}s} | {:{p}s}".format(key, output[key][0], output[key][1], output[key][2], w = w, e = e, u = u, p = p))
 
-#
+##############################################
 # PROGRAM ACTION FUNCTIONS
-#
+##############################################
+
 def print_all (data_dict):
     '''sorts dictionary keys and stores it oin a new variable to return'''
     output = {}
@@ -193,10 +199,10 @@ def edit_entry(fp, data_dict):
     file.close()
     print("\nYour data has been sucessfully saved to your file.")
             
-
-#
+##############################################
 # PROGRAM PARTS
-#
+##############################################
+
 def intro():
     '''program intro to determine what file to use'''
     print("\nHello. Welcome to the password manager.")
@@ -259,9 +265,10 @@ def cont_question():
             unknown_input()
             continue
 
-#
+##############################################
 # MAIN
-#
+##############################################
+
 def main():
     cont = True
     fp = intro()
