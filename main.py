@@ -36,6 +36,16 @@ def write_file(fp):
     file = open(fp, "w")
     return file
 
+def create_file():
+    fp = str(input("What would you like your file to be called?\n-> "))
+    if ".txt" in fp:
+        open(fp, "x")
+        return fp
+    else:
+        fp += ".txt"
+        open(fp, "x")
+        return fp
+
 def unknown_input():
     print("I didn't understand that.\n")
 
@@ -197,11 +207,9 @@ def intro():
 
         if answer.strip() == "1":
             fp = initialize_file()
-            print()
             return fp
         elif answer.strip() == "2":
-            fp = str(input("What would you like your file to be called? Please include the \".txt\" in your file name.\n-> "))
-            open(fp, "r")
+            fp = create_file()
             return fp
         elif answer.lower() == "3":
             fp = default_fp()
@@ -257,6 +265,7 @@ def cont_question():
 def main():
     cont = True
     fp = intro()
+    print()
     while cont == True:
         main_program(fp)
         cont = cont_question()
